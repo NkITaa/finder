@@ -45,7 +45,7 @@ class CustomBuilder {
       Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20))),
-        height: MediaQuery.of(context).size.height * 0.9 - height,
+        height: MediaQuery.of(context).size.height - height - 24,
         width: MediaQuery.of(context).size.width - 48,
         child: SwipeCards(
           matchEngine: matchEngine,
@@ -74,43 +74,54 @@ class CustomBuilder {
                         ),
                         alignment: Alignment.bottomLeft,
                         child: SizedBox(
-                            height: 190,
+                            height: 130,
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        pageController.animateToPage(
-                                          1,
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          curve: Curves.linear,
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.question_mark_outlined,
-                                        color: Colors.white,
-                                      )),
-                                  Text(
-                                    films[index].title,
-                                    style: const TextStyle(
-                                        fontSize: 30, color: Colors.white),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        films[index].title,
+                                        style: const TextStyle(
+                                            fontSize: 30, color: Colors.white),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            pageController.animateToPage(
+                                              1,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.linear,
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Colors.white,
+                                          )),
+                                    ],
                                   ),
                                   Row(
                                     children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       const Icon(
                                         Icons.date_range,
                                         color: Colors.white,
                                         size: 10,
                                       ),
                                       Text(
-                                        films[index].releaseDate,
+                                        films[index].release_date,
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),
                                     ],
                                   ),
-                                  Expanded(
+                                  SizedBox(
+                                    height: 20,
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         shrinkWrap: true,
@@ -121,9 +132,13 @@ class CustomBuilder {
                                                 MainAxisAlignment.start,
                                             children: [
                                               index2 < 1
+                                                  ? SizedBox(
+                                                      width: 10,
+                                                    )
+                                                  : Container(),
+                                              index2 < 1
                                                   ? const Icon(
-                                                      Icons
-                                                          .online_prediction_sharp,
+                                                      Icons.movie_outlined,
                                                       color: Colors.white,
                                                       size: 10,
                                                     )
@@ -197,9 +212,6 @@ class CustomBuilder {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  )
                                 ]))),
                     Column(
                       children: [

@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
               Film(
                   title: "Spider Man",
                   poster: "poster",
-                  releaseDate: "12.10.2001",
+                  release_date: "12.10.2001",
                   overview:
                       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                   genres: ["genres"])
