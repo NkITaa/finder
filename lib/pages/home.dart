@@ -30,12 +30,13 @@ class _HomeState extends State<Home> {
     return jsonDecode(message);
   }
 
+  static String host = 'ws://finder-slash2022.herokuapp.com/1234';
   final _incomingChannel = WebSocketChannel.connect(
-    Uri.parse('ws://localhost:8001/1'),
+    Uri.parse(host),
   );
 
   final _outgoingChannel = WebSocketChannel.connect(
-    Uri.parse('ws://localhost:8001/1'),
+    Uri.parse(host),
   );
 
   onStackFinishedAction() {
