@@ -35,6 +35,10 @@ class _HomeState extends State<Home> {
     Uri.parse('ws://localhost:8001/1'),
   );
 
+  onStackFinishedAction() {
+    _incomingChannel.sink.add(eventToMessage('movies', {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,58 +70,60 @@ class _HomeState extends State<Home> {
                 });
           }),
           StreamBuilder(
-              stream: _incomingChannel.stream,
-              builder: (context, snapshot) {
-                var message = messageToEvent(snapshot.data);
-                List<SwipeItem> swipeItems = [];
-                List<Film> movies = [];
-                if (message['event'] == 'movies') {
-                  List<dynamic> movies_data = message['data'];
-                  for (var movie_data in movies_data) {
-                    List<String> genres = (movie_data['genres'] as List)
-                        .map((item) => item as String)
-                        .toList(); //;
-                    List<int> genre_ids = (movie_data['genre_ids'] as List)
-                        .map((item) => item as int)
-                        .toList();
-                    Film movie = Film(
-                        title: movie_data['title'],
-                        poster: movie_data['poster'],
-                        release_date: movie_data['release_date'],
-                        overview: movie_data['overview'],
-                        genres: genres,
-                        genre_ids: genre_ids);
+            stream: _incomingChannel.stream,
+            builder: (context, snapshot) {
+              var message = messageToEvent(snapshot.data);
+              List<SwipeItem> swipeItems = [];
+              List<Film> movies = [];
+              if (message['event'] == 'movies') {
+                List<dynamic> movies_data = message['data']['movies'];
+                for (var movie_data in movies_data) {
+                  List<String> genres = (movie_data['genres'] as List)
+                      .map((item) => item as String)
+                      .toList(); //;
+                  List<int> genre_ids = (movie_data['genre_ids'] as List)
+                      .map((item) => item as int)
+                      .toList();
+                  Film movie = Film(
+                      title: movie_data['title'],
+                      poster: movie_data['poster'],
+                      release_date: movie_data['release_date'],
+                      overview: movie_data['overview'],
+                      genres: genres,
+                      genre_ids: genre_ids);
 
-                    SwipeItem swipeItem = SwipeItem(
-                        content: movie,
-                        likeAction: () {
-                          _outgoingChannel.sink
-                              .add(eventToMessage('upvote', movie));
-                        },
-                        nopeAction: () {
-                          _outgoingChannel.sink
-                              .add(eventToMessage('downvote', movie));
-                        },
-                        superlikeAction: () {},
-                        onSlideUpdate: (SlideRegion? region) async {
-                          print("Region $region");
-                        });
+                  SwipeItem swipeItem = SwipeItem(
+                      content: movie,
+                      likeAction: () {
+                        _outgoingChannel.sink
+                            .add(eventToMessage('upvote', movie));
+                      },
+                      nopeAction: () {
+                        _outgoingChannel.sink
+                            .add(eventToMessage('downvote', movie));
+                      },
+                      superlikeAction: () {},
+                      onSlideUpdate: (SlideRegion? region) async {
+                        print("Region $region");
+                      });
 
-                    movies.add(movie);
-                    swipeItems.add(swipeItem);
-                  }
+                  movies.add(movie);
+                  swipeItems.add(swipeItem);
                 }
+              }
 
-                MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
+              MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
 
-                return CustomBuilder.buildCards(
-                    height: CustomBuilder.customAppbar(context: context)
-                        .preferredSize
-                        .height,
-                    matchEngine: matchEngine,
-                    context: context,
-                    films: movies);
-              })
+              return CustomBuilder.buildCards(
+                  height: CustomBuilder.customAppbar(context: context)
+                      .preferredSize
+                      .height,
+                  matchEngine: matchEngine,
+                  context: context,
+                  films: movies,
+                  onStackFinishedAction: onStackFinishedAction);
+            },
+          )
         ]),
       ),
     );

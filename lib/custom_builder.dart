@@ -35,6 +35,7 @@ class CustomBuilder {
       {required MatchEngine matchEngine,
       required BuildContext context,
       required List<Film> films,
+      required Function onStackFinishedAction,
       required double height}) {
     int selectedIndex = 0;
 
@@ -321,7 +322,13 @@ class CustomBuilder {
               );
             });
           },
-          onStackFinished: () {},
+          onStackFinished: () {
+            onStackFinishedAction();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Stack Finished"),
+              duration: Duration(milliseconds: 500),
+            ));
+          },
           itemChanged: (SwipeItem item, int index) {
             //print("item: ${item.content.}, index: $index");
           },
