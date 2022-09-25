@@ -90,12 +90,14 @@ class _WinnerScreenState extends State<WinnerScreen> {
             ),
           ],
         )),
-        body: Stack(alignment: Alignment.center, children: [
-          ConfettiWidget(
-            confettiController: controller,
-            emissionFrequency: 0.50,
-            shouldLoop: true,
-            blastDirectionality: BlastDirectionality.explosive,
+        body: Stack(alignment: Alignment.topCenter, children: [
+          Container(
+            child: ConfettiWidget(
+              confettiController: controller,
+              emissionFrequency: 0.50,
+              shouldLoop: true,
+              blastDirectionality: BlastDirectionality.explosive,
+            ),
           ),
           Center(
             child: SizedBox(
