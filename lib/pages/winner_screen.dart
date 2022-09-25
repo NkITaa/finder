@@ -1,13 +1,11 @@
 import 'package:confetti/confetti.dart';
 import 'package:finder/film.dart';
 import 'package:flutter/material.dart';
-
 import '../custom_builder.dart';
 
 class WinnerScreen extends StatefulWidget {
   const WinnerScreen({super.key, required this.film});
   final Film film;
-
   @override
   State<WinnerScreen> createState() => _WinnerScreenState();
 }
@@ -90,17 +88,18 @@ class _WinnerScreenState extends State<WinnerScreen> {
             ),
           ],
         )),
-        body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ConfettiWidget(
+        body: Stack(alignment: Alignment.topCenter, children: [
+          Container(
+            child: ConfettiWidget(
               confettiController: controller,
               emissionFrequency: 0.50,
               shouldLoop: true,
               blastDirectionality: BlastDirectionality.explosive,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
+          ),
+          Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.95,
               child: AnimatedContainer(
                 duration: const Duration(seconds: 2),
                 decoration: const BoxDecoration(
@@ -112,8 +111,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                             .preferredSize
                             .height -
                         65
-                    : 0,
-                width: selected ? MediaQuery.of(context).size.width : 0,
+                    : 50,
+                width: selected ? MediaQuery.of(context).size.width * 0.95 : 50,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -122,13 +121,15 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   },
                   children: [
                     Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          image: DecorationImage(
-                              image: NetworkImage(film.poster),
-                              fit: BoxFit.cover),
-                        ),
+                        decoration: selected
+                            ? BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                image: DecorationImage(
+                                    image: NetworkImage(film.poster),
+                                    fit: BoxFit.cover),
+                              )
+                            : BoxDecoration(),
                         child: SizedBox(
                             height: 135,
                             child: Column(
@@ -262,7 +263,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                                       .preferredSize
                                       .height -
                                   200,
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width * 0.95,
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(20)),
@@ -272,7 +273,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width * 0.95,
                               height: 50,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -300,8 +301,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   ],
                 ),
               ),
-            )
-          ]),
-        ));
+            ),
+          )
+        ]));
   }
 }
