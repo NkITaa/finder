@@ -134,7 +134,10 @@ class _HomeState extends State<Home> {
                         final seconds = value.inSeconds % 60;
                         return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text('${minutes}:${seconds}',
+                            child: Text(
+                                minutes > 0
+                                    ? '${minutes}:${seconds}'
+                                    : '${seconds}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
