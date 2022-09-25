@@ -65,7 +65,46 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomBuilder.customAppbar(context: context),
-      drawer: const Drawer(),
+      drawer: Drawer(
+          child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xfffb00e4),
+                Color(0xff005fff),
+              ],
+            )),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Stop watching movies, read books ;)",
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Icon(
+                  Icons.book_outlined,
+                  size: 80,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+        ],
+      )),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -73,7 +112,6 @@ class _HomeState extends State<Home> {
             stream: _incomingChannel.stream,
             builder: (context, snapshot) {
               var message = messageToEvent(snapshot.data);
-              print(message);
               List<SwipeItem> swipeItems = [];
               List<Film> movies = [];
               if (message['event'] == 'result') {
@@ -90,7 +128,6 @@ class _HomeState extends State<Home> {
                 List<dynamic> movies_data = message['data']['movies'];
                 session_time_remaining =
                     message['data']['session_time_remaining'];
-                print("time: ${session_time_remaining}");
                 for (var movie_data in movies_data) {
                   Film movie = movieDataToFilm(movie_data);
                   SwipeItem swipeItem = SwipeItem(
@@ -127,7 +164,7 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Text('${value.inSeconds}',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 30)));

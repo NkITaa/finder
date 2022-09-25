@@ -50,7 +50,46 @@ class _WinnerScreenState extends State<WinnerScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomBuilder.customAppbar(context: context),
-        drawer: const Drawer(),
+        drawer: Drawer(
+            child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xfffb00e4),
+                  Color(0xff005fff),
+                ],
+              )),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "Stop watching movies, read books ;)",
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Icon(
+                    Icons.book_outlined,
+                    size: 80,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
+          ],
+        )),
         body: Stack(children: [
           ConfettiWidget(
             confettiController: controller,
@@ -69,7 +108,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                       CustomBuilder.customAppbar(context: context)
                           .preferredSize
                           .height -
-                      16
+                      65
                   : 0,
               width: selected ? MediaQuery.of(context).size.width * 0.95 : 0,
               child: PageView(
@@ -81,7 +120,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                 children: [
                   Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
                         image: DecorationImage(
                             image: NetworkImage(film.poster),
                             fit: BoxFit.cover),
@@ -222,7 +262,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                             width: MediaQuery.of(context).size.width * 0.95,
                             decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                                  const BorderRadius.all(Radius.circular(20)),
                               image: DecorationImage(
                                   image: NetworkImage(film.poster),
                                   fit: BoxFit.cover),

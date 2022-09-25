@@ -1,5 +1,3 @@
-import 'package:finder/pages/components.dart';
-import 'package:finder/pages/winner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -17,6 +15,17 @@ class CustomBuilder {
               onPressed: () {}, icon: Image.asset("assets/images/logo.png"))
         ],
       ),
+      actions: [
+        Row(
+          children: const [
+            Icon(
+              Icons.search,
+              color: Colors.transparent,
+              size: 16,
+            )
+          ],
+        )
+      ],
       iconTheme: const IconThemeData(color: Colors.black),
     );
   }
@@ -30,8 +39,8 @@ class CustomBuilder {
     int selectedIndex = 0;
 
     return Column(children: [
-      Container(
-        height: MediaQuery.of(context).size.height - height - 45,
+      SizedBox(
+        height: MediaQuery.of(context).size.height - height - 65,
         width: MediaQuery.of(context).size.width * 0.95,
         child: SwipeCards(
           matchEngine: matchEngine,
@@ -53,7 +62,7 @@ class CustomBuilder {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 248, 248, 248),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: MediaQuery.of(context).size.height - height - 16,
+                height: MediaQuery.of(context).size.height - height - 65,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -64,7 +73,8 @@ class CustomBuilder {
                     children: [
                       Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
                                 image: NetworkImage(films[index].poster),
                                 fit: BoxFit.cover),
@@ -275,8 +285,8 @@ class CustomBuilder {
                                     200,
                                 width: MediaQuery.of(context).size.width * 0.95,
                                 decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
                                   image: DecorationImage(
                                       image: NetworkImage(films[index].poster),
                                       fit: BoxFit.cover),

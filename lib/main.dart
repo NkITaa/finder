@@ -10,14 +10,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  print('hello main');
-  
-
   runApp(const MyApp());
-
-
- 
-
 }
 
 class MyApp extends StatelessWidget {
