@@ -90,16 +90,17 @@ class _WinnerScreenState extends State<WinnerScreen> {
             ),
           ],
         )),
-        body: Stack(alignment: Alignment.center, children: [
-          ConfettiWidget(
-            confettiController: controller,
-            emissionFrequency: 0.50,
-            shouldLoop: true,
-            blastDirectionality: BlastDirectionality.explosive,
-          ),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.95,
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            ConfettiWidget(
+              confettiController: controller,
+              emissionFrequency: 0.50,
+              shouldLoop: true,
+              blastDirectionality: BlastDirectionality.explosive,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
               child: AnimatedContainer(
                 duration: const Duration(seconds: 2),
                 decoration: const BoxDecoration(
@@ -112,7 +113,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                             .height -
                         65
                     : 0,
-                width: selected ? MediaQuery.of(context).size.width * 0.95 : 0,
+                width: selected ? MediaQuery.of(context).size.width : 0,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -262,7 +263,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                                       .preferredSize
                                       .height -
                                   200,
-                              width: MediaQuery.of(context).size.width * 0.95,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(20)),
@@ -272,7 +273,7 @@ class _WinnerScreenState extends State<WinnerScreen> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.95,
+                              width: MediaQuery.of(context).size.width,
                               height: 50,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -300,8 +301,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   ],
                 ),
               ),
-            ),
-          )
-        ]));
+            )
+          ]),
+        ));
   }
 }
