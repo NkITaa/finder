@@ -110,7 +110,15 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const WinnerScreen()),
+                              builder: (context) => WinnerScreen(
+                                    film: Film(
+                                        title: "title",
+                                        poster: "poster",
+                                        release_date: "release_date",
+                                        overview: "overview",
+                                        genres: ["genres"],
+                                        genre_ids: [4, 4]),
+                                  )),
                         );
                       },
                       builder: (BuildContext context, Duration value,
