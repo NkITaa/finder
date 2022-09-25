@@ -81,7 +81,7 @@ class CustomBuilder {
                           ),
                           alignment: Alignment.bottomLeft,
                           child: SizedBox(
-                              height: 135,
+                              height: 150,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -244,7 +244,7 @@ class CustomBuilder {
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 15,
                                     ),
                                   ]))),
                       Column(
