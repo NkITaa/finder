@@ -30,6 +30,22 @@ class _HomeState extends State<Home> {
     return jsonDecode(message);
   }
 
+  static movieDataToFilm(movie_data){
+     List<String> genres = (movie_data['genres'] as List)
+                      .map((item) => item as String)
+          .toList(); //;
+      List<int> genre_ids = (movie_data['genre_ids'] as List)
+          .map((item) => item as int)
+          .toList();
+      Film movie = Film(
+          title: movie_data['title'],
+          poster: movie_data['poster'],
+          release_date: movie_data['release_date'],
+          overview: movie_data['overview'],
+          genres: genres,
+          genre_ids: genre_ids);
+      return movie;
+  }
   static String host = 'wss://finder-slash2022.herokuapp.com/1234';
   final _incomingChannel = WebSocketChannel.connect(
     Uri.parse(host),
@@ -59,26 +75,16 @@ class _HomeState extends State<Home> {
               print(message);
               List<SwipeItem> swipeItems = [];
               List<Film> movies = [];
-              if (message['event'] == 'movies') {
+              if(message['event'] == 'result'){
+                Film winner = movieDataToFilm(message['data']);
+              } 
+              if(message['event'] == 'movies') {
                 List<dynamic> movies_data = message['data']['movies'];
                 session_time_remaining =
                     message['data']['session_time_remaining'];
                 print("time: ${session_time_remaining}");
                 for (var movie_data in movies_data) {
-                  List<String> genres = (movie_data['genres'] as List)
-                      .map((item) => item as String)
-                      .toList(); //;
-                  List<int> genre_ids = (movie_data['genre_ids'] as List)
-                      .map((item) => item as int)
-                      .toList();
-                  Film movie = Film(
-                      title: movie_data['title'],
-                      poster: movie_data['poster'],
-                      release_date: movie_data['release_date'],
-                      overview: movie_data['overview'],
-                      genres: genres,
-                      genre_ids: genre_ids);
-
+                 Film movie = movieDataToFilm(movie_data);
                   SwipeItem swipeItem = SwipeItem(
                       content: movie,
                       likeAction: () {
