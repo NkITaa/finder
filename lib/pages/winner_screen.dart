@@ -129,7 +129,6 @@ class _WinnerScreenState extends State<WinnerScreen> {
                               image: NetworkImage(film.poster),
                               fit: BoxFit.cover),
                         ),
-                        alignment: Alignment.bottomLeft,
                         child: SizedBox(
                             height: 135,
                             child: Column(
