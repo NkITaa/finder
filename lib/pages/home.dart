@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:finder/film.dart';
@@ -18,26 +19,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  static eventToMessage(eventString, data){
-    return jsonEncode({
-      'event' : eventString,
-      'data' : data
-    });
+  static eventToMessage(eventString, data) {
+    return jsonEncode({'event': eventString, 'data': data});
   }
 
-  static messageToEvent(message){
+  static messageToEvent(message) {
     return jsonDecode(message);
   }
 
-
-  final _incomingChannel= WebSocketChannel.connect(
+  final _incomingChannel = WebSocketChannel.connect(
     Uri.parse('ws://localhost:8001/1'),
   );
 
   final _outgoingChannel = WebSocketChannel.connect(
     Uri.parse('ws://localhost:8001/1'),
   );
-  
 
   @override
   Widget build(BuildContext context) {
@@ -48,58 +44,71 @@ class _HomeState extends State<Home> {
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState2) {
+            return TweenAnimationBuilder<Duration>(
+                duration: Duration(seconds: 20),
+                tween: Tween(begin: Duration(seconds: 20), end: Duration.zero),
+                onEnd: () {
+                  print('Timer ended');
+                },
+                builder: (BuildContext context, Duration value, Widget? child) {
+                  final minutes = value.inMinutes;
+                  final seconds = value.inSeconds % 60;
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text('$minutes:$seconds',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30)));
+                });
+          }),
           StreamBuilder(
               stream: _incomingChannel.stream,
               builder: (context, snapshot) {
-                print('Streambuilder');
-                print(snapshot);
-                print('data:');
-                print(snapshot.data);
                 var message = messageToEvent(snapshot.data);
                 List<SwipeItem> swipeItems = [];
                 List<Film> movies = [];
-                if( message['event'] == 'movies'){
-                    List<dynamic> movies_data = message['data'];
-                    for (var movie_data in movies_data){
-
-                    List<String> genres = (movie_data['genres'] as List).map((item) => item as String).toList();//;
-                    List<int> genre_ids = (movie_data['genre_ids'] as List).map((item) => item as int).toList();
+                if (message['event'] == 'movies') {
+                  List<dynamic> movies_data = message['data'];
+                  for (var movie_data in movies_data) {
+                    List<String> genres = (movie_data['genres'] as List)
+                        .map((item) => item as String)
+                        .toList(); //;
+                    List<int> genre_ids = (movie_data['genre_ids'] as List)
+                        .map((item) => item as int)
+                        .toList();
                     Film movie = Film(
                         title: movie_data['title'],
                         poster: movie_data['poster'],
                         release_date: movie_data['release_date'],
                         overview: movie_data['overview'],
                         genres: genres,
-                        genre_ids: genre_ids
-                      );
+                        genre_ids: genre_ids);
 
                     SwipeItem swipeItem = SwipeItem(
-                    content: movie,
-                      likeAction: () {
-                        print("Likeing a movie");
-                        _outgoingChannel.sink.add(eventToMessage('upvote', movie));
-                      },
-                      nopeAction: () {
-                        _outgoingChannel.sink.add(eventToMessage('downvote', movie));
-                      },
-                      superlikeAction: () {
-                        print("Superlike");
-                      },
-                      onSlideUpdate: (SlideRegion? region) async {
-                        print("Region $region");
-                      }
-                    );
+                        content: movie,
+                        likeAction: () {
+                          _outgoingChannel.sink
+                              .add(eventToMessage('upvote', movie));
+                        },
+                        nopeAction: () {
+                          _outgoingChannel.sink
+                              .add(eventToMessage('downvote', movie));
+                        },
+                        superlikeAction: () {},
+                        onSlideUpdate: (SlideRegion? region) async {
+                          print("Region $region");
+                        });
 
                     movies.add(movie);
                     swipeItems.add(swipeItem);
-
-                    }
-                
+                  }
                 }
-                print(movies.length);
-                
-                MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
 
+                MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
 
                 return CustomBuilder.buildCards(
                     height: CustomBuilder.customAppbar(context: context)
@@ -107,19 +116,17 @@ class _HomeState extends State<Home> {
                         .height,
                     matchEngine: matchEngine,
                     context: context,
-                    films: movies
-                  );
-              },
-            )
+                    films: movies);
+              })
         ]),
       ),
     );
   }
-   @override
+
+  @override
   void dispose() {
     _incomingChannel.sink.close();
 
     super.dispose();
   }
-
 }

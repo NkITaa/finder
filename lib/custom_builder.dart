@@ -1,4 +1,5 @@
 import 'package:finder/pages/components.dart';
+import 'package:finder/pages/winner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -35,15 +36,11 @@ class CustomBuilder {
       required BuildContext context,
       required List<Film> films,
       required double height}) {
-    PageController pageController = PageController(
-      initialPage: 0,
-      keepPage: true,
-    );
     int selectedIndex = 0;
 
     return Column(children: [
       Container(
-        height: MediaQuery.of(context).size.height - height - 5,
+        height: MediaQuery.of(context).size.height - height - 16,
         width: MediaQuery.of(context).size.width * 0.95,
         child: SwipeCards(
           matchEngine: matchEngine,
@@ -56,11 +53,16 @@ class CustomBuilder {
                 });
               }
 
+              PageController pageController = PageController(
+                initialPage: 0,
+                keepPage: true,
+              );
+
               return Container(
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 248, 248, 248),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: MediaQuery.of(context).size.height - height - 5,
+                height: MediaQuery.of(context).size.height - height - 16,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -95,13 +97,12 @@ class CustomBuilder {
                                         ),
                                         IconButton(
                                             onPressed: () =>
-                                              pageController.animateToPage(
-                                                1,
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                curve: Curves.linear,
-                                              )
-                                            ,
+                                                pageController.animateToPage(
+                                                  1,
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.linear,
+                                                ),
                                             icon: const Icon(
                                               Icons.info_outline,
                                               color: Colors.white,
@@ -282,13 +283,11 @@ class CustomBuilder {
                                     height -
                                     200,
                                 width: MediaQuery.of(context).size.width * 0.95,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)),
                                   image: DecorationImage(
-                                      //image: NetworkImage(films[index].poster)
-                                      image: AssetImage(
-                                          "assets/images/example.png"),
+                                      image: NetworkImage(films[index].poster),
                                       fit: BoxFit.cover),
                                 ),
                               ),
@@ -322,12 +321,7 @@ class CustomBuilder {
               );
             });
           },
-          onStackFinished: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Stack Finished"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
+          onStackFinished: () {},
           itemChanged: (SwipeItem item, int index) {
             //print("item: ${item.content.}, index: $index");
           },
