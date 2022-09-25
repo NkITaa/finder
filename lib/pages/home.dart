@@ -25,6 +25,8 @@ class _HomeState extends State<Home> {
     });
   }
 
+  
+
   static messageToEvent(message){
     return jsonDecode(message);
   }
@@ -38,6 +40,9 @@ class _HomeState extends State<Home> {
     Uri.parse('ws://localhost:8001/1'),
   );
   
+  onStackFinishedAction(){
+    _incomingChannel.sink.add(eventToMessage('movies', {}));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,7 @@ class _HomeState extends State<Home> {
                 List<SwipeItem> swipeItems = [];
                 List<Film> movies = [];
                 if( message['event'] == 'movies'){
-                    List<dynamic> movies_data = message['data'];
+                    List<dynamic> movies_data = message['data']['movies'];
                     for (var movie_data in movies_data){
 
                     List<String> genres = (movie_data['genres'] as List).map((item) => item as String).toList();//;
@@ -107,7 +112,8 @@ class _HomeState extends State<Home> {
                         .height,
                     matchEngine: matchEngine,
                     context: context,
-                    films: movies
+                    films: movies,
+                    onStackFinishedAction: onStackFinishedAction
                   );
               },
             )
