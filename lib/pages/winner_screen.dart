@@ -113,8 +113,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                             .preferredSize
                             .height -
                         65
-                    : 0,
-                width: selected ? MediaQuery.of(context).size.width * 0.95 : 0,
+                    : 50,
+                width: selected ? MediaQuery.of(context).size.width * 0.95 : 50,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -123,13 +123,15 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   },
                   children: [
                     Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          image: DecorationImage(
-                              image: NetworkImage(film.poster),
-                              fit: BoxFit.cover),
-                        ),
+                        decoration: selected
+                            ? BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                image: DecorationImage(
+                                    image: NetworkImage(film.poster),
+                                    fit: BoxFit.cover),
+                              )
+                            : BoxDecoration(),
                         alignment: Alignment.bottomLeft,
                         child: SizedBox(
                             height: 135,
