@@ -6,6 +6,7 @@ class Film {
   String release_date;
   String overview;
   List<String> genres;
+  List<int> genre_ids;
 
   Film({
     required this.title,
@@ -13,5 +14,17 @@ class Film {
     required this.release_date,
     required this.overview,
     required this.genres,
+    required this.genre_ids,
   });
+
+  Map<String, dynamic> toJson(){
+    return {
+      'title' : title,
+      'poster': poster,
+      'release_data': release_date,
+      'overview' : overview,
+      'genres': genres,
+      'genre_ids': genre_ids
+    };
+  }
 }

@@ -30,7 +30,11 @@ class _HomeState extends State<Home> {
   }
 
 
-  final _channel = WebSocketChannel.connect(
+  final _incomingChannel= WebSocketChannel.connect(
+    Uri.parse('ws://localhost:8001/1'),
+  );
+
+  final _outgoingChannel = WebSocketChannel.connect(
     Uri.parse('ws://localhost:8001/1'),
   );
   
@@ -45,7 +49,7 @@ class _HomeState extends State<Home> {
         width: MediaQuery.of(context).size.width,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           StreamBuilder(
-              stream: _channel.stream,
+              stream: _incomingChannel.stream,
               builder: (context, snapshot) {
                 print('Streambuilder');
                 print(snapshot);
@@ -58,22 +62,25 @@ class _HomeState extends State<Home> {
                     List<dynamic> movies_data = message['data'];
                     for (var movie_data in movies_data){
 
-                    List<String> genres = ['hello'];
+                    List<String> genres = (movie_data['genres'] as List).map((item) => item as String).toList();//;
+                    List<int> genre_ids = (movie_data['genre_ids'] as List).map((item) => item as int).toList();
                     Film movie = Film(
                         title: movie_data['title'],
                         poster: movie_data['poster'],
                         release_date: movie_data['release_date'],
                         overview: movie_data['overview'],
-                        genres: genres
+                        genres: genres,
+                        genre_ids: genre_ids
                       );
 
                     SwipeItem swipeItem = SwipeItem(
                     content: movie,
                       likeAction: () {
-                        print("Like");
+                        print("Likeing a movie");
+                        _outgoingChannel.sink.add(eventToMessage('upvote', movie));
                       },
                       nopeAction: () {
-                        print("Nope");
+                        _outgoingChannel.sink.add(eventToMessage('downvote', movie));
                       },
                       superlikeAction: () {
                         print("Superlike");
@@ -101,18 +108,6 @@ class _HomeState extends State<Home> {
                     matchEngine: matchEngine,
                     context: context,
                     films: movies
-                    
-                    /*[
-
-                      Film(
-                          title: "Spider Man",
-                          poster: "poster",
-                          releaseDate: "12.10.2001",
-                          overview:
-                              "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                          genres: ["genres"])
-                    ],
-                    */
                   );
               },
             )
@@ -120,4 +115,11 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+   @override
+  void dispose() {
+    _incomingChannel.sink.close();
+
+    super.dispose();
+  }
+
 }

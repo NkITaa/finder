@@ -70,11 +70,10 @@ class CustomBuilder {
                     },
                     children: [
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             image: DecorationImage(
-                                //image: NetworkImage(films[index].poster)
-                                image: AssetImage("assets/images/example.png"),
+                                image: NetworkImage(films[index].poster),
                                 fit: BoxFit.cover),
                           ),
                           alignment: Alignment.bottomLeft,
@@ -95,14 +94,14 @@ class CustomBuilder {
                                               color: Colors.white),
                                         ),
                                         IconButton(
-                                            onPressed: () {
+                                            onPressed: () =>
                                               pageController.animateToPage(
                                                 1,
                                                 duration: const Duration(
                                                     milliseconds: 300),
                                                 curve: Curves.linear,
-                                              );
-                                            },
+                                              )
+                                            ,
                                             icon: const Icon(
                                               Icons.info_outline,
                                               color: Colors.white,
@@ -161,7 +160,7 @@ class CustomBuilder {
                                                     left: 5.0,
                                                   ),
                                                   child: Text(
-                                                    films[index].genres[0],
+                                                    films[index].genres[index2],
                                                     style: const TextStyle(
                                                         color: Colors.white),
                                                   ),
@@ -330,7 +329,7 @@ class CustomBuilder {
             ));
           },
           itemChanged: (SwipeItem item, int index) {
-            print("item: ${item.content.text}, index: $index");
+            //print("item: ${item.content.}, index: $index");
           },
           upSwipeAllowed: true,
           fillSpace: true,
