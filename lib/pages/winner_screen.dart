@@ -130,98 +130,106 @@ class _WinnerScreenState extends State<WinnerScreen> {
                                     fit: BoxFit.cover),
                               )
                             : BoxDecoration(),
-                        child: SizedBox(
-                            height: 135,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                                height: 135,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const SizedBox(
-                                        width: 10,
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            film.title,
+                                            style: const TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.white),
+                                          ),
+                                          IconButton(
+                                              onPressed: () =>
+                                                  pageController.animateToPage(
+                                                    1,
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                    curve: Curves.linear,
+                                                  ),
+                                              icon: const Icon(
+                                                Icons.info_outline,
+                                                color: Colors.white,
+                                              )),
+                                        ],
                                       ),
-                                      Text(
-                                        film.title,
-                                        style: const TextStyle(
-                                            fontSize: 30, color: Colors.white),
-                                      ),
-                                      IconButton(
-                                          onPressed: () =>
-                                              pageController.animateToPage(
-                                                1,
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                curve: Curves.linear,
-                                              ),
-                                          icon: const Icon(
-                                            Icons.info_outline,
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          const Icon(
+                                            Icons.date_range,
                                             color: Colors.white,
-                                          )),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
+                                            size: 10,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            film.release_date,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            itemCount: film.genres.length > 3
+                                                ? 3
+                                                : film.genres.length,
+                                            itemBuilder: (context, index2) {
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  index2 == 0
+                                                      ? const SizedBox(
+                                                          width: 10,
+                                                        )
+                                                      : Container(),
+                                                  index2 == 0
+                                                      ? const Icon(
+                                                          Icons.movie_outlined,
+                                                          color: Colors.white,
+                                                          size: 10,
+                                                        )
+                                                      : Container(),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 5.0,
+                                                    ),
+                                                    child: Text(
+                                                      film.genres[index2],
+                                                      style: const TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            }),
+                                      ),
                                       const SizedBox(
-                                        width: 10,
+                                        height: 10,
                                       ),
-                                      const Icon(
-                                        Icons.date_range,
-                                        color: Colors.white,
-                                        size: 10,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        film.release_date,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemCount: film.genres.length > 3
-                                            ? 3
-                                            : film.genres.length,
-                                        itemBuilder: (context, index2) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              index2 == 0
-                                                  ? const SizedBox(
-                                                      width: 10,
-                                                    )
-                                                  : Container(),
-                                              index2 == 0
-                                                  ? const Icon(
-                                                      Icons.movie_outlined,
-                                                      color: Colors.white,
-                                                      size: 10,
-                                                    )
-                                                  : Container(),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 5.0,
-                                                ),
-                                                child: Text(
-                                                  film.genres[index2],
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ]))),
+                                    ])),
+                          ],
+                        )),
                     Column(
                       children: [
                         Stack(
