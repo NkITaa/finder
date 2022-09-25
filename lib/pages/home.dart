@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
     Uri.parse('ws://localhost:8001/1'),
   );
   
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                     Film movie = Film(
                         title: movie_data['title'],
                         poster: movie_data['poster'],
-                        releaseDate: movie_data['release_date'],
+                        release_date: movie_data['release_date'],
                         overview: movie_data['overview'],
                         genres: genres
                       );
@@ -116,7 +116,6 @@ class _HomeState extends State<Home> {
                   );
               },
             )
-          
         ]),
       ),
     );
