@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  confetti: ^0.7.0
   swipe_cards: ^1.0.0
   firebase_core: ^1.23.0
   web_socket_channel: ^2.2.0

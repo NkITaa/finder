@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:finder/film.dart';
+import 'package:finder/pages/winner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -106,7 +107,11 @@ class _HomeState extends State<Home> {
                               seconds: (session_time_remaining!).toInt()),
                           end: Duration.zero),
                       onEnd: () {
-                        print('Timer ended');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WinnerScreen()),
+                        );
                       },
                       builder: (BuildContext context, Duration value,
                           Widget? child) {
