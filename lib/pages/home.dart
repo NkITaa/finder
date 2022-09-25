@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     return jsonDecode(message);
   }
 
-  static String host = 'ws://finder-slash2022.herokuapp.com/1234';
+  static String host = 'wss://finder-slash2022.herokuapp.com/1234';
   final _incomingChannel = WebSocketChannel.connect(
     Uri.parse(host),
   );
