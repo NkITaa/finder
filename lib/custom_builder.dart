@@ -18,16 +18,6 @@ class CustomBuilder {
         ],
       ),
       iconTheme: const IconThemeData(color: Colors.black),
-      actions: [
-        IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              showSearch(context: context, delegate: MySearchDelegate());
-            })
-      ],
     );
   }
 

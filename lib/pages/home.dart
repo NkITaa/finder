@@ -110,7 +110,6 @@ class _HomeState extends State<Home> {
                   swipeItems.add(swipeItem);
                 }
               }
-
               MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
               return Column(
                 children: [
@@ -124,14 +123,9 @@ class _HomeState extends State<Home> {
                       onEnd: () {},
                       builder: (BuildContext context, Duration value,
                           Widget? child) {
-                        final minutes = value.inMinutes;
-                        final seconds = value.inSeconds % 60;
                         return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                                minutes > 0
-                                    ? '${minutes}:${seconds}'
-                                    : '${seconds}',
+                            child: Text('${value.inSeconds}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
