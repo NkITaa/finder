@@ -47,47 +47,6 @@ class _WinnerScreenState extends State<WinnerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomBuilder.customAppbar(context: context),
-        drawer: Drawer(
-            child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xfffb00e4),
-                  Color(0xff005fff),
-                ],
-              )),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      "Stop watching movies, read books ;)",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Icon(
-                    Icons.book_outlined,
-                    size: 80,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ],
-        )),
         body: Stack(alignment: Alignment.topCenter, children: [
           Container(
             child: ConfettiWidget(

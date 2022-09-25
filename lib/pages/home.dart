@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
     _incomingChannel.sink.add(eventToMessage('movies', {}));
   }
 
+  int siteIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,84 +106,92 @@ class _HomeState extends State<Home> {
           ),
         ],
       )),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          StreamBuilder(
-            stream: _incomingChannel.stream,
-            builder: (context, snapshot) {
-              var message = messageToEvent(snapshot.data);
-              List<SwipeItem> swipeItems = [];
-              List<Film> movies = [];
-              if (message['event'] == 'result') {
-                winner = movieDataToFilm(message['data']);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WinnerScreen(
-                            film: winner!,
-                          )),
-                );
-              }
-              if (message['event'] == 'movies') {
-                List<dynamic> movies_data = message['data']['movies'];
-                session_time_remaining =
-                    message['data']['session_time_remaining'];
-                for (var movie_data in movies_data) {
-                  Film movie = movieDataToFilm(movie_data);
-                  SwipeItem swipeItem = SwipeItem(
-                      content: movie,
-                      likeAction: () {
-                        _outgoingChannel.sink
-                            .add(eventToMessage('upvote', movie));
-                      },
-                      nopeAction: () {
-                        _outgoingChannel.sink
-                            .add(eventToMessage('downvote', movie));
-                      },
-                      superlikeAction: () {},
-                      onSlideUpdate: (SlideRegion? region) async {});
+      body: siteIndex == 0
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    StreamBuilder(
+                      stream: _incomingChannel.stream,
+                      builder: (context, snapshot) {
+                        var message = messageToEvent(snapshot.data);
+                        List<SwipeItem> swipeItems = [];
+                        List<Film> movies = [];
+                        if (message['event'] == 'result') {
+                          winner = movieDataToFilm(message['data']);
 
-                  movies.add(movie);
-                  swipeItems.add(swipeItem);
-                }
-              }
-              MatchEngine matchEngine = MatchEngine(swipeItems: swipeItems);
-              return Column(
-                children: [
-                  TweenAnimationBuilder<Duration>(
-                      duration:
-                          Duration(seconds: (session_time_remaining!).toInt()),
-                      tween: Tween(
-                          begin: Duration(
-                              seconds: (session_time_remaining!).toInt()),
-                          end: Duration.zero),
-                      onEnd: () {},
-                      builder: (BuildContext context, Duration value,
-                          Widget? child) {
-                        return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text('${value.inSeconds}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30)));
-                      }),
-                  CustomBuilder.buildCards(
-                      height: CustomBuilder.customAppbar(context: context)
-                          .preferredSize
-                          .height,
-                      matchEngine: matchEngine,
-                      context: context,
-                      films: movies,
-                      onStackFinishedAction: onStackFinishedAction),
-                ],
-              );
-            },
-          )
-        ]),
-      ),
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            siteIndex = 1;
+                            setState(() {});
+                          });
+                        }
+                        if (message['event'] == 'movies') {
+                          List<dynamic> movies_data = message['data']['movies'];
+                          session_time_remaining =
+                              message['data']['session_time_remaining'];
+                          for (var movie_data in movies_data) {
+                            Film movie = movieDataToFilm(movie_data);
+                            SwipeItem swipeItem = SwipeItem(
+                                content: movie,
+                                likeAction: () {
+                                  _outgoingChannel.sink
+                                      .add(eventToMessage('upvote', movie));
+                                },
+                                nopeAction: () {
+                                  _outgoingChannel.sink
+                                      .add(eventToMessage('downvote', movie));
+                                },
+                                superlikeAction: () {},
+                                onSlideUpdate: (SlideRegion? region) async {});
+
+                            movies.add(movie);
+                            swipeItems.add(swipeItem);
+                          }
+                        }
+                        MatchEngine matchEngine =
+                            MatchEngine(swipeItems: swipeItems);
+                        return Column(
+                          children: [
+                            TweenAnimationBuilder<Duration>(
+                                duration: Duration(
+                                    seconds: (session_time_remaining!).toInt()),
+                                tween: Tween(
+                                    begin: Duration(
+                                        seconds:
+                                            (session_time_remaining!).toInt()),
+                                    end: Duration.zero),
+                                onEnd: () {},
+                                builder: (BuildContext context, Duration value,
+                                    Widget? child) {
+                                  return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Text('${value.inSeconds}',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 30)));
+                                }),
+                            CustomBuilder.buildCards(
+                                height:
+                                    CustomBuilder.customAppbar(context: context)
+                                        .preferredSize
+                                        .height,
+                                matchEngine: matchEngine,
+                                context: context,
+                                films: movies,
+                                onStackFinishedAction: onStackFinishedAction),
+                          ],
+                        );
+                      },
+                    )
+                  ]),
+            )
+          : WinnerScreen(
+              film: winner!,
+            ),
     );
   }
 
