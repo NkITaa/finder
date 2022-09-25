@@ -132,7 +132,6 @@ class _WinnerScreenState extends State<WinnerScreen> {
                                     fit: BoxFit.cover),
                               )
                             : BoxDecoration(),
-                        alignment: Alignment.bottomLeft,
                         child: SizedBox(
                             height: 135,
                             child: Column(
