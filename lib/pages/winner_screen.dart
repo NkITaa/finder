@@ -1,11 +1,13 @@
 import 'package:confetti/confetti.dart';
 import 'package:finder/film.dart';
 import 'package:flutter/material.dart';
+
 import '../custom_builder.dart';
 
 class WinnerScreen extends StatefulWidget {
   const WinnerScreen({super.key, required this.film});
   final Film film;
+
   @override
   State<WinnerScreen> createState() => _WinnerScreenState();
 }
@@ -88,14 +90,12 @@ class _WinnerScreenState extends State<WinnerScreen> {
             ),
           ],
         )),
-        body: Stack(alignment: Alignment.topCenter, children: [
-          Container(
-            child: ConfettiWidget(
-              confettiController: controller,
-              emissionFrequency: 0.50,
-              shouldLoop: true,
-              blastDirectionality: BlastDirectionality.explosive,
-            ),
+        body: Stack(alignment: Alignment.center, children: [
+          ConfettiWidget(
+            confettiController: controller,
+            emissionFrequency: 0.50,
+            shouldLoop: true,
+            blastDirectionality: BlastDirectionality.explosive,
           ),
           Center(
             child: SizedBox(
@@ -111,8 +111,8 @@ class _WinnerScreenState extends State<WinnerScreen> {
                             .preferredSize
                             .height -
                         65
-                    : 50,
-                width: selected ? MediaQuery.of(context).size.width * 0.95 : 50,
+                    : 0,
+                width: selected ? MediaQuery.of(context).size.width * 0.95 : 0,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -121,15 +121,14 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   },
                   children: [
                     Container(
-                        decoration: selected
-                            ? BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                image: DecorationImage(
-                                    image: NetworkImage(film.poster),
-                                    fit: BoxFit.cover),
-                              )
-                            : BoxDecoration(),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                          image: DecorationImage(
+                              image: NetworkImage(film.poster),
+                              fit: BoxFit.cover),
+                        ),
+                        alignment: Alignment.bottomLeft,
                         child: SizedBox(
                             height: 135,
                             child: Column(
