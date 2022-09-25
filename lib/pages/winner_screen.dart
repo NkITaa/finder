@@ -14,7 +14,6 @@ class WinnerScreen extends StatefulWidget {
 
 class _WinnerScreenState extends State<WinnerScreen> {
   bool isPlaying = false;
-  bool selected = false;
   late Film film = widget.film;
   final ConfettiController controller = ConfettiController();
   int selectedIndex = 0;
@@ -34,7 +33,6 @@ class _WinnerScreenState extends State<WinnerScreen> {
     controller.play();
     Future.delayed(const Duration(milliseconds: 900), () {
       controller.stop();
-      selected = true;
       setState(() {});
     });
   }
@@ -107,14 +105,12 @@ class _WinnerScreenState extends State<WinnerScreen> {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 248, 248, 248),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: selected
-                    ? MediaQuery.of(context).size.height -
-                        CustomBuilder.customAppbar(context: context)
-                            .preferredSize
-                            .height -
-                        65
-                    : 50,
-                width: selected ? MediaQuery.of(context).size.width * 0.95 : 50,
+                height: MediaQuery.of(context).size.height -
+                    CustomBuilder.customAppbar(context: context)
+                        .preferredSize
+                        .height -
+                    65,
+                width: MediaQuery.of(context).size.width * 0.95,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -123,15 +119,13 @@ class _WinnerScreenState extends State<WinnerScreen> {
                   },
                   children: [
                     Container(
-                        decoration: selected
-                            ? BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                image: DecorationImage(
-                                    image: NetworkImage(film.poster),
-                                    fit: BoxFit.cover),
-                              )
-                            : BoxDecoration(),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                          image: DecorationImage(
+                              image: NetworkImage(film.poster),
+                              fit: BoxFit.cover),
+                        ),
                         child: SizedBox(
                             height: 135,
                             child: Column(
