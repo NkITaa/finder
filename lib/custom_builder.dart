@@ -41,7 +41,7 @@ class CustomBuilder {
 
     return Column(children: [
       Container(
-        height: MediaQuery.of(context).size.height - height - 16,
+        height: MediaQuery.of(context).size.height - height - 45,
         width: MediaQuery.of(context).size.width * 0.95,
         child: SwipeCards(
           matchEngine: matchEngine,
