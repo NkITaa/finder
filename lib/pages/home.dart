@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
     return movie;
   }
 
-  static String host = 'wss://starfish-app-9pr9f.ondigitalocean.app/2022';
+  static String host = 'wss://finder-slash2022.herokuapp.com/2022';
   final _incomingChannel = WebSocketChannel.connect(
     Uri.parse(host),
   );
